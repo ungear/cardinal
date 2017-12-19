@@ -356,7 +356,7 @@ def printState(state):
         print("{:x} | {:x} | {:x} | {:x}".format(*state[rowIndex]))
     print('')
 
-# makes a hash of the passed password abd returns a list of bytes
+# makes a hash of the passed password and returns it as a list of bytes
 def getPasswordHash(passwordString):
     hash = hashlib.md5()
     hash.update(passwordString.encode())
