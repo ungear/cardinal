@@ -14,7 +14,7 @@ def main():
         if decoding_result == 0:
             print("Wrong password")
         elif isinstance(decoding_result, list):
-            print(decoding_result)
+            start_data_grid(decoding_result)
     else:
         print('base not found')
         # create password base then work with it
@@ -22,7 +22,7 @@ def main():
 
 def decode_password_base(master_password):
     """
-    Tries to decode the password base usind passed master password
+    Tries to decode the password base using passed master password
     Returns 0 if decoding failed, otherwise returns decoded data
     """
     with open(PASSWORD_BASE_PATH, 'rb+') as data_file:
@@ -34,6 +34,19 @@ def decode_password_base(master_password):
             return data
         except json.decoder.JSONDecodeError:
             return 0
+
+def start_data_grid(data_list):
+    """Represents data to the user and deals with changes"""
+    row_template = "| {0: <20} | {1: <20} | {2: <20} |"
+    header = row_template.format("Title", "Login", "Password")
+    rows = [header]
+    for entry in data_list:
+        row = row_template.format(entry['title'], entry['login'], '***')
+        rows.append(row)
+
+    for row in rows:
+        print(row)
+
 
 if __name__ == "__main__":
     main()
