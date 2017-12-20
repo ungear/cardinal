@@ -55,15 +55,28 @@ def encode_and_save_data(data_list, password):
 
 def start_data_grid(data_list, password):
     """Represents data to the user and deals with changes"""
-    row_template = "| {0: <20} | {1: <20} | {2: <20} |"
-    header = row_template.format("Title", "Login", "Password")
-    rows = [header]
-    for entry in data_list:
-        row = row_template.format(entry['title'], entry['login'], '***')
-        rows.append(row)
+    exit_loop = False
+    while not exit_loop:
+        row_template = "| {0: <20} | {1: <20} | {2: <20} |"
+        header = row_template.format("Title", "Login", "Password")
+        rows = [header]
+        for entry in data_list:
+            row = row_template.format(entry['title'], entry['login'], entry['password'])
+            rows.append(row)
 
-    for row in rows:
-        print(row)
+        for row in rows:
+            print(row)
+
+        operation = input("\nc - create / e - exit\n")
+        if operation == 'c':
+            entry_title = input("Title: ")
+            entry_login = input("Login: ")
+            entry_password = getpass.getpass("Password: ")
+            new_entry = {'title': entry_title, 'login': entry_login, 'password': entry_password}
+            data_list.append(new_entry)
+            encode_and_save_data(data_list, password)
+        elif operation == 'e':
+            exit_loop = True
 
 
 
