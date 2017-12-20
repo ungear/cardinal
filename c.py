@@ -15,7 +15,7 @@ print([x for x in encodedStrData])
 #print(encodedBytes)
 
 
-with open('data.txt', 'wb') as file:
+with open('data', 'wb') as file:
     file.write(encodedBytes)
 
 
