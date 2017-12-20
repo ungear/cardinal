@@ -14,11 +14,20 @@ def main():
         if decoding_result == 0:
             print("Wrong password")
         elif isinstance(decoding_result, list):
-            start_data_grid(decoding_result)
+            start_data_grid(decoding_result, password)
     else:
-        print('base not found')
-        # create password base then work with it
-        # print ("I/O error({0}): {1}".format(err.errno, err.strerror))
+        create_answer = input('Base not found. Create? y/n ')
+        if create_answer == 'y':
+            password_first = getpass.getpass("Set the password: ")
+            password_second = getpass.getpass("Repeat the password: ")
+            if password_first == password_second:
+                new_password_base = []
+                encode_and_save_data(new_password_base, password_first)
+                start_data_grid(new_password_base, password_first)
+            else:
+                print("Passwords are different")
+        else:
+            print("Bye")
 
 def decode_password_base(master_password):
     """
@@ -35,7 +44,16 @@ def decode_password_base(master_password):
         except json.decoder.JSONDecodeError:
             return 0
 
-def start_data_grid(data_list):
+def encode_and_save_data(data_list, password):
+    """ Encodes passed data and saves it"""
+    with open(PASSWORD_BASE_PATH, 'wb') as data_file:
+        stringified_data = json.dumps(data_list)
+        encoded_data_string = aes.encode(password, stringified_data)
+        encoded_data_bytes = encoded_data_string.encode()
+        data_file.write(encoded_data_bytes)
+
+
+def start_data_grid(data_list, password):
     """Represents data to the user and deals with changes"""
     row_template = "| {0: <20} | {1: <20} | {2: <20} |"
     header = row_template.format("Title", "Login", "Password")
@@ -46,6 +64,7 @@ def start_data_grid(data_list):
 
     for row in rows:
         print(row)
+
 
 
 if __name__ == "__main__":

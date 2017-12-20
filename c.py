@@ -19,7 +19,7 @@ with open('data', 'wb') as file:
     file.write(encodedBytes)
 
 
-with open('data.txt', 'rb') as file:
+with open('data', 'rb') as file:
     rawBytes = file.read()
     rawEncodedStr = rawBytes.decode()
     decodedStrData = aes.decode(PASSWORD, rawEncodedStr)
