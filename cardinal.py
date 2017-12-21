@@ -57,13 +57,15 @@ def start_data_grid(data_list, password):
     """Represents data to the user and deals with changes"""
     exit_loop = False
     while not exit_loop:
-        row_template = "| {0: <20} | {1: <20} | {2: <20} |"
+        row_template = "| {0: <18} | {1: <18} | {2: <18} |"
+        horizontal_rule_template = "|{0:-<20}|{0:-<20}|{0:-<20}|"
         header = row_template.format("Title", "Login", "Password")
-        rows = [header]
+        hor_break = horizontal_rule_template.format("")
+        rows = [header, hor_break]
         for entry in data_list:
             row = row_template.format(entry['title'], entry['login'], entry['password'])
             rows.append(row)
-
+        rows.append(hor_break)
         for row in rows:
             print(row)
 
