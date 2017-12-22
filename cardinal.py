@@ -57,27 +57,38 @@ def start_data_grid(data_list, password):
     """Represents data to the user and deals with changes"""
     exit_loop = False
     while not exit_loop:
-        row_template = "| {0: <18} | {1: <18} | {2: <18} |"
-        horizontal_rule_template = "|{0:-<20}|{0:-<20}|{0:-<20}|"
-        header = row_template.format("Title", "Login", "Password")
+        row_template = "| {0: <2} | {1: <18} | {2: <18} | {3: <18} |"
+        horizontal_rule_template = "|{0:-<4}|{0:-<20}|{0:-<20}|{0:-<20}|"
+        header = row_template.format("Id","Title", "Login", "Password")
         hor_break = horizontal_rule_template.format("")
         rows = [header, hor_break]
         for entry in data_list:
-            row = row_template.format(entry['title'], entry['login'], entry['password'])
+            row = row_template.format(entry['id'], entry['title'], entry['login'], entry['password'])
             rows.append(row)
         rows.append(hor_break)
         for row in rows:
             print(row)
 
-        operation = input("\nc - create / e - exit\n")
+        operation = input("\nc - create / d - delete / q - quit\n")
         if operation == 'c':
             entry_title = input("Title: ")
             entry_login = input("Login: ")
             entry_password = getpass.getpass("Password: ")
-            new_entry = {'title': entry_title, 'login': entry_login, 'password': entry_password}
+            new_entry = {
+                'id': len(data_list) + 1,
+                'title': entry_title, 
+                'login': entry_login, 
+                'password': entry_password}
             data_list.append(new_entry)
             encode_and_save_data(data_list, password)
-        elif operation == 'e':
+        if operation == 'd':
+            entry_id_to_delete = int(input("Id of the entry you want to delete: "))
+            entries_found_by_id = [x for x in data_list if x['id'] == entry_id_to_delete]
+            if(any(entries_found_by_id)):
+                data_list.remove(entries_found_by_id[0])
+            else:
+                print('Wrong id')
+        elif operation == 'q':
             exit_loop = True
 
 
