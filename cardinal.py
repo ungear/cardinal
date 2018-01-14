@@ -2,7 +2,7 @@ import os.path
 import getpass
 import json
 import aes
-#a
+
 PASSWORD_BASE_FILENAME = 'data'
 PASSWORD_BASE_PATH = os.path.join(os.getcwd(), PASSWORD_BASE_FILENAME)
 
